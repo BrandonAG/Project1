@@ -65,12 +65,18 @@ var getPollutant = function(data) {
     var mainUS = data.pollution.mainus;
     // Turn pollutant conde into a human readable string
     var pollutantString = getPollutantString(mainUS);
+    var units = getUnits(mainUS);
     // Pollutant concentration
     var concentration = data.pollution.conc;
-    var units = getUnits(mainUS);
+    var thisPollutant = {
+        name: ""
+    }
+
     console.log(unitValue);
 };
 
 var getUnits = function(pollutantCode) {}
 
+
+var getPollutantString = function(pollutantCode) {}
 getCurrentAirInfo();
