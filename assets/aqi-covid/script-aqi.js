@@ -29,10 +29,10 @@ var getWeather = function(results) {
 
     var aqiBadgeElement = createBadge(results.data.current.pollution.aqius);
     /* Displayed this way for testing purposes only */
-    contentEl.innerHTML = "<div class='heads'><h1>Ahoy, " + results.data.city + "!</h1></div><br>Temp: " +
+    contentEl.innerHTML = "<div><h1>Ahoy, " + results.data.city + "!</h1></div><div>" + imgCode + "</div><br>Temp: " +
         convertToF(results.data.current.weather.tp) + "F" +
-        "<br><br><div class='d-flex justify-contents-around'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" + imgCode +
-        "<br><br><h6>This is the AirVisual App at work.</h6>";
+        "<br><br><div><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
+        "<br><br><h6>This is the AirVisual App at work.</h6></div>";
 
 };
 var createBadge = function(aqiValue) {
