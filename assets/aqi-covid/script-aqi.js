@@ -4,7 +4,7 @@ document.cookie = 'cookie2=value2; SameSite=None; Secure';
 // https://api.airvisual.com/v2/nearest_city?key=40f410cd-9102-4b7b-9aed-cdbbce23a985
 // 3812ea6836536b0581712ffd66f54fa5
 
-
+// Fetch the API data
 var getCurrentAirInfo = function() {
     var apiUrl = "https://api.airvisual.com/v2/nearest_city?key=40f410cd-9102-4b7b-9aed-cdbbce23a985";
     fetch(apiUrl).then(function(response) {
@@ -21,9 +21,13 @@ var getCurrentAirInfo = function() {
     });
 };
 
-
+// Finds and saves the data needed from the API
 var getAQIInformation = function(results) {
     getPollutant(results);
+
+    /* NOTE: This data is displayed this way (innerHTML) for testing purposes only - this way I can see my output.
+    the plan is to build information objects that can be saved and accessed as needed. */
+
     var headerEl = document.getElementById("current-conditions-header");
     headerEl.innerHTML = "<div><h1>Ahoy, " + results.data.city + "!</h1></div>";
 
@@ -33,13 +37,18 @@ var getAQIInformation = function(results) {
     var imgCode = "<img src='" + link + "' alt='icon'>";
 
     var aqiBadgeElement = createBadge(results.data.current.pollution.aqius);
-    /* Displayed this way for testing purposes only so I can see my output */
+
+
+
     contentEl.innerHTML = "<div>" + imgCode + "</div><br><h3>Temp: " +
         convertToF(results.data.current.weather.tp) + "F" +
         "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
         "<br><br></h3><h6>This is the AirVisual App at work.</h6></div>";
 
 };
+
+
+// Creates a badge using materialize that indicates the AQI with color coding
 var createBadge = function(aqiValue) {
     var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light ";
 
@@ -60,13 +69,18 @@ var createBadge = function(aqiValue) {
     return badgeCode;
 };
 
+// The API uses Celsius - so we want to convert this for our American users I suppose
+
 function convertToF(celsius) {
     return celsius * 9 / 5 + 32;
 };
+
+/* Get the most concentrated pollutant for the specified area 
+and creates an Object which can be stored*/
 var getPollutant = function(result) {
     // Main pollutant for US AQI
     var mainUS = result.data.current.pollution.mainus;
-    // Turn pollutant conde into a human readable string
+    // Turn pollutant code into a human readable string
     var pollutantString = getPollutantString(mainUS);
     var unitType = getUnits(mainUS);
 
@@ -79,6 +93,7 @@ var getPollutant = function(result) {
     console.log(thisPollutant);
 };
 
+// Finds the unit of measure for the pollutant
 var getUnits = function(pollutantCode) {
     var units = "";
     if ((pollutantCode === "p2") || (pollutantCode === "p1")) {
@@ -90,10 +105,13 @@ var getUnits = function(pollutantCode) {
         units = "ppb";
     }
     return units;
-}
+};
 
-
+// Turns the pollutant code into a String that makes sense for humans
 var getPollutantString = function(pollutantCode) {
+
+
     return pollutantCode;
-}
+};
+
 getCurrentAirInfo();
