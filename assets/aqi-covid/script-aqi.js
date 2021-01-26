@@ -25,8 +25,6 @@ var getCurrentAirInfo = function() {
 var getAQIInformation = function(results) {
     getPollutant(results);
     var headerEl = document.getElementById("current-conditions-header");
-
-    /* Displayed this way for testing purposes only so I can see my output */
     headerEl.innerHTML = "<div><h1>Ahoy, " + results.data.city + "!</h1></div>";
 
     var contentEl = document.getElementById("content");
@@ -35,10 +33,11 @@ var getAQIInformation = function(results) {
     var imgCode = "<img src='" + link + "' alt='icon'>";
 
     var aqiBadgeElement = createBadge(results.data.current.pollution.aqius);
-    contentEl.innerHTML = "<div>" + imgCode + "</div><br>Temp: " +
+    /* Displayed this way for testing purposes only so I can see my output */
+    contentEl.innerHTML = "<div>" + imgCode + "</div><br><h3>Temp: " +
         convertToF(results.data.current.weather.tp) + "F" +
         "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
-        "<br><br><h6>This is the AirVisual App at work.</h6></div>";
+        "<br><br></h3><h6>This is the AirVisual App at work.</h6></div>";
 
 };
 var createBadge = function(aqiValue) {
@@ -64,32 +63,37 @@ var createBadge = function(aqiValue) {
 function convertToF(celsius) {
     return celsius * 9 / 5 + 32;
 };
-var getPollutantObj = function(result) {
+var getPollutant = function(result) {
     // Main pollutant for US AQI
     var mainUS = result.data.current.pollution.mainus;
     // Turn pollutant conde into a human readable string
     var pollutantString = getPollutantString(mainUS);
     var unitType = getUnits(mainUS);
-    // Pollutant concentration
-    var concentrationValue = result.current.data.current.pollution.conc;
+
     var thisPollutant = {
         name: pollutantString,
         data: mainUS,
         units: unitType,
-        concentration: concentrationValue
     }
 
     console.log(thisPollutant);
 };
 
 var getUnits = function(pollutantCode) {
-    return pollutantCode;
-};
+    var units = "";
+    if ((pollutantCode === "p2") || (pollutantCode === "p1")) {
+        units = "ugm3";
+    } else if ((pollutantCode === "o3") ||
+        (pollutantCode === "n2") ||
+        (pollutantCode === "s2") ||
+        (pollutantCode === "co")) {
+        units = "ppb";
+    }
+    return units;
+}
 
 
 var getPollutantString = function(pollutantCode) {
     return pollutantCode;
-};
-
-
+}
 getCurrentAirInfo();
