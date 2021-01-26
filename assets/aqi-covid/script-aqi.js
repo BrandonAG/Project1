@@ -24,6 +24,9 @@ var getCurrentAirInfo = function() {
 
 var getAQIInformation = function(results) {
     getPollutant(results);
+    var headerEl = document.getElementById("heads");
+    headerEl.innerHTML = "<div><h1>Ahoy, " + results.data.city + "!</h1></div>";
+
     var contentEl = document.getElementById("content");
     var iconIdEl = results.data.current.weather.ic;
     var link = "https://openweathermap.org/img/wn/" + iconIdEl + "@2x.png";;
@@ -31,52 +34,59 @@ var getAQIInformation = function(results) {
 
     var aqiBadgeElement = createBadge(results.data.current.pollution.aqius);
     /* Displayed this way for testing purposes only so I can see my output */
-    contentEl.innerHTML = "<div><h1>Ahoy, " + results.data.city + "!</h1></div><div>" + imgCode + "</div><br>Temp: " +
+    contentEl.innerHTML = "<div>" + imgCode + "</div><br>Temp: " +
         convertToF(results.data.current.weather.tp) + "F" +
-        "<br><br><div><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
+        "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
         "<br><br><h6>This is the AirVisual App at work.</h6></div>";
 
 };
 var createBadge = function(aqiValue) {
-    var badgeCode = "<h3><span class='badge text-light bg-";
+    var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light ";
 
     if (aqiValue <= 50) {
-        badgeCode += "primary";
+        badgeCode += "green";
     } else if (aqiValue <= 100) {
-        badgeCode += "success";
+        badgeCode += "yellow";
     } else if (aqiValue <= 150) {
-        badgeCode += "warning";
+        badgeCode += "orange";
     } else if (aqiValue <= 200) {
-        badgeCode += "danger";
+        badgeCode += "red";
     } else if (aqiValue <= 300) {
-        badgeCode += "secondary";
+        badgeCode += "violet";
     } else if (aqiValue > 301) {
-        badgeCode += "dark";
+        badgeCode += "maroon";
     }
-    badgeCode += "'>" + aqiValue + "</span></h3>";
+    badgeCode += "'>" + aqiValue + "</a></h3>";
     return badgeCode;
 };
 
 function convertToF(celsius) {
     return celsius * 9 / 5 + 32;
 };
-var getPollutant = function(data) {
+var getPollutant = function(result) {
     // Main pollutant for US AQI
-    var mainUS = data.pollution.mainus;
+    var mainUS = result.data.current.pollution.mainus;
     // Turn pollutant conde into a human readable string
     var pollutantString = getPollutantString(mainUS);
-    var units = getUnits(mainUS);
+    var unitType = getUnits(mainUS);
     // Pollutant concentration
-    var concentration = data.pollution.conc;
+    var concentrationValue = result.data.current.pollution.conc;
     var thisPollutant = {
-        name: ""
+        name: pollutantString,
+        data: mainUS,
+        units: unitType,
+        concentration: concentrationValue
     }
 
-    console.log(unitValue);
+    console.log(thisPollutant);
 };
 
-var getUnits = function(pollutantCode) {}
+var getUnits = function(pollutantCode) {
+    return pollutantCode;
+}
 
 
-var getPollutantString = function(pollutantCode) {}
+var getPollutantString = function(pollutantCode) {
+    return pollutantCode;
+}
 getCurrentAirInfo();
