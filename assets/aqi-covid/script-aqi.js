@@ -23,7 +23,7 @@ var getCurrentAirInfo = function() {
 
 // Finds and saves the data needed from the API
 var getAQIInformation = function(results) {
-    getPollutant(results);
+
 
     /* NOTE: This data is displayed this way (innerHTML) for testing purposes only - this way I can see my output.
     the plan is to build information objects that can be saved and accessed as needed. */
@@ -37,13 +37,14 @@ var getAQIInformation = function(results) {
     var imgCode = "<img src='" + link + "' alt='icon'>";
 
     var aqiBadgeElement = createBadge(results.data.current.pollution.aqius);
-
+    var pollutantName = getPollutant(results);
 
 
     contentEl.innerHTML = "<div>" + imgCode + "</div><br><h3>Temp: " +
         convertToF(results.data.current.weather.tp) + "F" +
         "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
-        "<br><br></h3><h6>This is the AirVisual App at work.</h6></div>";
+        "<br><div class='pollutants'>Primary Pollutant: " + pollutantName +
+        "</div><br></h3><h6>This is the AirVisual App at work.</h6></div>";
 
 };
 
@@ -75,43 +76,31 @@ function convertToF(celsius) {
     return celsius * 9 / 5 + 32;
 };
 
-/* Get the most concentrated pollutant for the specified area 
-and creates an Object which can be stored*/
+
 var getPollutant = function(result) {
-    // Main pollutant for US AQI
-    var mainUS = result.data.current.pollution.mainus;
     // Turn pollutant code into a human readable string
-    var pollutantString = getPollutantString(mainUS);
-    var unitType = getUnits(mainUS);
-
-    var thisPollutant = {
-        name: pollutantString,
-        data: mainUS,
-        units: unitType,
+    var pollutantCode = result.data.current.pollution.mainus;
+    var pollutantName = "";
+    if (pollutantCode === "p2") {
+        pollutantName = "PM2.5";
+    } else if (pollutantCode === "p1") {
+        pollutantName = "PM10";
+    } else if (pollutantCode === "o3") {
+        pollutantName = "Ozone O3";
+    } else if (pollutantCode === "n2") {
+        pollutantName = "Nitrogen dioxide NO2";
+    } else if (pollutantCode === "s2") {
+        pollutantName = "Sulfur dioxide SO2";
+    } else if (pollutantCode === "co") {
+        pollutantName = "Carbon monoxide CO";
+    } else {
+        pollutantName = "ERROR - invalid pollutant code";
     }
 
-    console.log(thisPollutant);
+    return pollutantName;
 };
 
-// Finds the unit of measure for the pollutant
-var getUnits = function(pollutantCode) {
-    var units = "";
-    if ((pollutantCode === "p2") || (pollutantCode === "p1")) {
-        units = "ugm3";
-    } else if ((pollutantCode === "o3") ||
-        (pollutantCode === "n2") ||
-        (pollutantCode === "s2") ||
-        (pollutantCode === "co")) {
-        units = "ppb";
-    }
-    return units;
-};
-
-// Turns the pollutant code into a String that makes sense for humans
-var getPollutantString = function(pollutantCode) {
 
 
-    return pollutantCode;
-};
 
 getCurrentAirInfo();
