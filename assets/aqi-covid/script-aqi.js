@@ -96,5 +96,5 @@ var getPollutant = function(result) {
 
     return pollutantName;
 };
-getCurrentAirInfo();
+
 getCurrentAirInfo();
