@@ -24,7 +24,9 @@ var getCurrentAirInfo = function() {
 
 var getAQIInformation = function(results) {
     getPollutant(results);
-    var headerEl = document.getElementById("heads");
+    var headerEl = document.getElementById("current-conditions-header");
+
+    /* Displayed this way for testing purposes only so I can see my output */
     headerEl.innerHTML = "<div><h1>Ahoy, " + results.data.city + "!</h1></div>";
 
     var contentEl = document.getElementById("content");
@@ -33,7 +35,6 @@ var getAQIInformation = function(results) {
     var imgCode = "<img src='" + link + "' alt='icon'>";
 
     var aqiBadgeElement = createBadge(results.data.current.pollution.aqius);
-    /* Displayed this way for testing purposes only so I can see my output */
     contentEl.innerHTML = "<div>" + imgCode + "</div><br>Temp: " +
         convertToF(results.data.current.weather.tp) + "F" +
         "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
@@ -63,14 +64,14 @@ var createBadge = function(aqiValue) {
 function convertToF(celsius) {
     return celsius * 9 / 5 + 32;
 };
-var getPollutant = function(result) {
+var getPollutantObj = function(result) {
     // Main pollutant for US AQI
     var mainUS = result.data.current.pollution.mainus;
     // Turn pollutant conde into a human readable string
     var pollutantString = getPollutantString(mainUS);
     var unitType = getUnits(mainUS);
     // Pollutant concentration
-    var concentrationValue = result.data.current.pollution.conc;
+    var concentrationValue = result.current.data.current.pollution.conc;
     var thisPollutant = {
         name: pollutantString,
         data: mainUS,
@@ -83,10 +84,12 @@ var getPollutant = function(result) {
 
 var getUnits = function(pollutantCode) {
     return pollutantCode;
-}
+};
 
 
 var getPollutantString = function(pollutantCode) {
     return pollutantCode;
-}
+};
+
+
 getCurrentAirInfo();
