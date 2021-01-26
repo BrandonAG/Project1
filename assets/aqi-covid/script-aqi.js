@@ -23,8 +23,6 @@ var getCurrentAirInfo = function() {
 
 // Finds and saves the data needed from the API
 var getAQIInformation = function(results) {
-
-
     /* NOTE: This data is displayed this way (innerHTML) for testing purposes only - this way I can see my output.
     the plan is to build information objects that can be saved and accessed as needed. */
 
@@ -47,7 +45,6 @@ var getAQIInformation = function(results) {
         "</div><br></h3><h6>This is the AirVisual App at work.</h6></div>";
 
 };
-
 
 // Creates a badge using materialize that indicates the AQI with color coding
 var createBadge = function(aqiValue) {
@@ -99,8 +96,5 @@ var getPollutant = function(result) {
 
     return pollutantName;
 };
-
-
-
-
+getCurrentAirInfo();
 getCurrentAirInfo();
