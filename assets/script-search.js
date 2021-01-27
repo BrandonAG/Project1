@@ -35,7 +35,7 @@ document.getElementById('form-submit').addEventListener('click', function(event)
             var stateCode;
             var fullName;
             var fips; // For County or State Level FIPS
-            var cityFips; // For City Level FIPS Only
+            var cityFipsEn; // Used to Determine if City Level FIPS is Available
             if (data.results[0].components.state) {
                 stateName = data.results[0].components.state;
                 stateCode = data.results[0].components.state_code;
@@ -49,15 +49,16 @@ document.getElementById('form-submit').addEventListener('click', function(event)
                 cityName = data.results[0].components.city;
                 countyName = data.results[0].components.county;
                 fullName = cityName + ", " + stateCode;
-                cityFips = getCityFips(fullName).then(function(results) {
+                fips = data.results[0].annotations.FIPS.county;
+                cityFipsEn = getCityFips(fullName).then(function(cityFips) {
                     // NOTE: For Special Function Calls that Require City Level FIPS Only
                     //  
                     // someFunction(someInput,anotherInput)
                     // anotherFunction(someInput,anotherInput)
-                    locationDemographics(results);
-                    return results;
+                    locationDemographics(cityFips, fips);
+                    return;
                 });
-                fips = data.results[0].annotations.FIPS.county;
+
             }
             // If Location is a County
             else if (data.results[0].components.county) {
@@ -71,12 +72,12 @@ document.getElementById('form-submit').addEventListener('click', function(event)
                 fips = data.results[0].annotations.FIPS.state;
             }
 
-            if(!cityFips){
+            if(!cityFipsEn){
                 // Call APIs Via Separate Function Calls 
                 // NOTE: Place All Functions That do Not Need City Level FIPS Below
                 //
                 // someFunction(someInput,anotherInput)
-                locationDemographics(fips);
+                locationDemographics(fips, fips);
             }
 
         });
