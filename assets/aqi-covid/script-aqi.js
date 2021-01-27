@@ -47,7 +47,7 @@ function searchButtonHandler(input) {
 
 
 };
-// This app is purely to show we can access the info via IP geolocation and by searching a location name
+
 var searchResult = function(url) {
         fetch(url).then(function(response) {
 
@@ -57,6 +57,13 @@ var searchResult = function(url) {
                     var testingEl = document.getElementById("why");
                     var aqiBadgeElement = createBadge(thisData.data.current.pollution.aqius);
                     testingEl.innerHTML = "The AQI For Searched Region: " + aqiBadgeElement;
+                    var location = thisData.data.city + ", " + thisData.data.state + ", " + thisData.data.country;
+                    var myObj = {
+                        name: location,
+                        rating: "getRating()" // future concept of personal rating for risk assessment
+                    };
+                    cityArray.push(myObj);
+                    saveSearch();
                 });
             } else {
                 alert("Error: " + response.statusText);
@@ -88,7 +95,8 @@ var displayAQIInformation = function(results) {
         "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
         "<br><div class='pollutants'>Primary Pollutant: " + pollutantName +
         "</div><br></h3><h6>This is the AirVisual App at work.</h6></div>";
-    searchButtonHandler(cityFormatted);
+    searchButtonHandler(cityFormatted); // This is just to show that the search function works,
+    // we will link up the search input button instead of this function.
 };
 
 
@@ -143,4 +151,28 @@ var getPollutant = function(result) {
     return pollutantName;
 };
 
+function saveSearch() {
+    localStorage.setItem("cityArray", JSON.stringify(cityArray));
+    console.log("search recorded");
+    console.log(cityArray);
+};
+
+function loadSearch() {
+    var savedSearches = JSON.parse(localStorage.getItem("cityArray"));
+
+    if (savedSearches) {
+        cityArray = savedSearches;
+    } else { return false; }
+    console.log("Search History Found...");
+
+    cityArray = JSON.parse(JSON.stringify(savedSearches));
+    console.log(cityArray);
+    /* createHistory(); - a future function to build the search history panel */
+};
+
+// Calls loadSearch() to load the saved entries up as the page loads
+
+
 getCurrentAirInfo();
+
+loadSearch();
