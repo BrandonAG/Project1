@@ -20,7 +20,7 @@ function getCityFips(locationFullName) {
 document.getElementById('form-submit').addEventListener('click', function(event) {
     event.preventDefault();
     if (searchEntry.value) {
-        fetch('https://api.opencagedata.com/geocode/v1/json?q=' + searchEntry.value + '&key=c740ebf9cdd34742986f08e8fd78033c&language=en&pretty=1')
+        fetch('https://api.opencagedata.com/geocode/v1/json?q=' + searchEntry.value + '&key=c740ebf9cdd34742986f08e8fd78033c&language=en&pretty=1&countrycode=us')
         .then(response => response.json())
         .then(function(data) {
 
@@ -34,7 +34,8 @@ document.getElementById('form-submit').addEventListener('click', function(event)
             var stateName;
             var stateCode;
             var fullName;
-            var fipsList = [];
+            var fips; // For County or State Level FIPS
+            var cityFips; // For City Level FIPS Only
             if (data.results[0].components.state) {
                 stateName = data.results[0].components.state;
                 stateCode = data.results[0].components.state_code;
@@ -56,25 +57,27 @@ document.getElementById('form-submit').addEventListener('click', function(event)
                     locationDemographics(results);
                     return results;
                 });
-                fipsList = [data.results[0].annotations.FIPS.county, cityFips]
+                fips = data.results[0].annotations.FIPS.county;
             }
             // If Location is a County
             else if (data.results[0].components.county) {
                 countyName = data.results[0].components.county;
                 fullName = countyName + ", " + stateCode;
-                fipsList = [data.results[0].annotations.FIPS.county]
+                fips = data.results[0].annotations.FIPS.county;
             }
             // If Location is a State
             else {
                 fullName = stateName;
-                fipsList = [data.results[0].annotations.FIPS.state]
+                fips = data.results[0].annotations.FIPS.state;
             }
 
-            // Call APIs Via Separate Function Calls 
-            // NOTE: Place All Functions That do Not Need City Level FIPS Below
-            //
-            // someFunction(someInput,anotherInput)
-            // anotherFunction(someInput,anotherInput)
+            if(!cityFips){
+                // Call APIs Via Separate Function Calls 
+                // NOTE: Place All Functions That do Not Need City Level FIPS Below
+                //
+                // someFunction(someInput,anotherInput)
+                locationDemographics(fips);
+            }
 
         });
     }

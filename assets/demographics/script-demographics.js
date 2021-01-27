@@ -19,6 +19,7 @@ function locationDemographics(fips) {
         fetch('https://api.census.gov/data/2019/pep/population?get=COUNTY,DATE_CODE,DATE_DESC,DENSITY,POP,NAME,STATE&for=county:' + countyFips + '&in=state:' + stateFips)
         .then(response => response.json())
         .then(function(data) {
+            console.log(data);
             popDensity = data[data.length - 1][3];
             popDensityEl.innerHTML = Math.round(popDensity) + " per sq. mi.";
         });
@@ -27,6 +28,7 @@ function locationDemographics(fips) {
         fetch('https://api.census.gov/data/2019/pep/population?get=COUNTY,DATE_CODE,DATE_DESC,DENSITY,POP,NAME,STATE&for=state:' + fips)
         .then(response => response.json())
         .then(function(data) {
+            console.log(data);
             popDensity = data[data.length - 1][3];
             popDensityEl.innerHTML = Math.round(popDensity) + " per sq. mi.";
         });
