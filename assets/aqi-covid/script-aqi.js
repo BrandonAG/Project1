@@ -24,7 +24,7 @@ var getCurrentAirInfo = function() {
 };
 
 
-function searchButtonHandler(input) {
+function initializeSearch(input) {
     console.log(input);
     var apiUrl = "https://api.opencagedata.com/geocode/v1/json?q=" +
         input + "&key=974cf3d56a9f45d58e79a7ec8b1f7842";
@@ -94,8 +94,7 @@ var displayAQIInformation = function(results) {
         "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
         "<br><div class='pollutants'>Primary Pollutant: " + pollutantName +
         "</div><br></h3><h6>This is the AirVisual App at work.</h6></div>";
-    searchButtonHandler(cityFormatted); // This is just to show that the search function works,
-    // we will link up the search input button instead of this function.
+    initializeSearch(cityFormatted); // This is just to show that the search function works.
 };
 
 
