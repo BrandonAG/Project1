@@ -57,28 +57,6 @@ var displayAQIInformation = function(results) {
 };
 
 
-/* Adjusting this area in the future to suit our needs - for now it's not important
-
-var createBadge = function(aqiValue) {
-    var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light";
-
-    if (aqiValue <= 50) {
-        badgeCode += "green";
-    } else if (aqiValue <= 100) {
-        badgeCode += "yellow";
-    } else if (aqiValue <= 150) {
-        badgeCode += "orange";
-    } else if (aqiValue <= 200) {
-        badgeCode += "red";
-    } else if (aqiValue <= 300) {
-        badgeCode += "violet";
-    } else if (aqiValue > 301) {
-        badgeCode += "maroon";
-    }
-    badgeCode += "'>" + aqiValue + "</a></h3>";
-    return badgeCode;
-}; */
-
 // The API uses Celsius - so we want to convert this to Fahrenheit
 
 function convertToF(celsius) {
@@ -135,3 +113,33 @@ var getPollutant = function(result) {
 getCurrentAirInfo();
 
 loadSearch();*/
+
+/* 
+******************************************************
+Adjusting this area in the future to suit our needs - for now it's not important
+
+What is useful is that the values are the EPA determined levels from good to hazardous AQI levels
+the colors also correspond with the ones on this website, but I am not commited to them by any means!
+
+https://www.airnow.gov/aqi/aqi-basics/
+
+*****************************************************
+var createBadge = function(aqiValue) {
+    var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light";
+
+    if (aqiValue <= 50) {
+        badgeCode += "green";
+    } else if (aqiValue <= 100) {
+        badgeCode += "yellow";
+    } else if (aqiValue <= 150) {
+        badgeCode += "orange";
+    } else if (aqiValue <= 200) {
+        badgeCode += "red";
+    } else if (aqiValue <= 300) {
+        badgeCode += "violet";
+    } else if (aqiValue > 301) {
+        badgeCode += "maroon";
+    }
+    badgeCode += "'>" + aqiValue + "</a></h3>";
+    return badgeCode;
+}; */
