@@ -54,7 +54,7 @@ var searchResult = function(url) {
             if (response.ok) {
                 response.json().then(function(thisData) {
                     console.log(thisData)
-                    var testingEl = document.getElementById("why");
+                    var testingEl = document.getElementById("where");
                     var aqiBadgeElement = createBadge(thisData.data.current.pollution.aqius);
                     testingEl.innerHTML = "The AQI For Searched Region: " + aqiBadgeElement;
                     var location = thisData.data.city + ", " + thisData.data.state + ", " + thisData.data.country;
