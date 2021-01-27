@@ -11,7 +11,7 @@ var getCurrentAirInfo = function() {
             response.json().then(function(dataResult) {
                 console.log(dataResult);
                 console.log(dataResult.data.location.coordinates);
-                displayAQIInformation(dataResult);
+                createAPIObject(dataResult);
 
             });
         } else {
@@ -31,16 +31,8 @@ var searchAQIResult = function(lat, lng) {
 
         if (response.ok) {
             response.json().then(function(thisData) {
-                console.log(thisData)
-
-
-                var location = thisData.data.city + ", " + thisData.data.state + ", " + thisData.data.country;
-                var myObj = {
-                    name: location,
-                    aqi: thisData.data.current.pollution.aqius,
-                    pollutant: getPollutant(thisData)
-                };
-                cityArray.push(myObj);
+                console.log(thisData);
+                createAPIObject(thisData);
 
             });
         } else {
@@ -50,7 +42,7 @@ var searchAQIResult = function(lat, lng) {
     });
 }
 
-var displayAQIInformation = function(results) {
+var createAPIObject = function(results) {
     // This will work with HTML and CSS to display the variables
     var cityFormatted = results.data.city + ", " + results.data.state + ", " + results.data.country;
     var iconIdEl = results.data.current.weather.ic;
@@ -58,6 +50,13 @@ var displayAQIInformation = function(results) {
     var imgCode = "<img src='" + link + "' alt='icon'>";
     var aqi = results.data.current.pollution.aqius;
     var pollutantName = getPollutant(results);
+    var myObj = {
+        name: cityFormatted,
+        aqi: aqi,
+        pollutant: pollutantName,
+        img: imgCode
+    };
+    cityArray.push(myObj);
 };
 
 
