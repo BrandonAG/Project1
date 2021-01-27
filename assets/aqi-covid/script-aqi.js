@@ -60,7 +60,7 @@ var searchResult = function(url) {
                     var location = thisData.data.city + ", " + thisData.data.state + ", " + thisData.data.country;
                     var myObj = {
                         name: location,
-                        rating: "getRating()" // future concept of personal rating for risk assessment
+                        rating: thisData.data.current.pollution.aqius // future concept of personal rating for risk assessment
                     };
                     cityArray.push(myObj);
                     saveSearch();
