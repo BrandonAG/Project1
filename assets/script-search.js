@@ -72,13 +72,11 @@ document.getElementById('form-submit').addEventListener('click', function(event)
                 fips = data.results[0].annotations.FIPS.state;
             }
 
-            if(!cityFipsEn){
-                // Call APIs Via Separate Function Calls 
-                // NOTE: Place All Functions That do Not Need City Level FIPS Below
-                //
-                // someFunction(someInput,anotherInput)
-                locationDemographics(fips, fips);
-            }
+            // Call APIs Via Separate Function Calls 
+            // NOTE: Place All Functions That do Not Need City Level FIPS Below
+            //
+            // someFunction(someInput,anotherInput)
+            locationDemographics(fips, fips);
 
         });
     }

@@ -6,7 +6,6 @@ const povRateEl = document.getElementById('poverty-rate');
 function locationDemographics(cityFips, fips) {
     // City Level FIPS
     if (cityFips.length == 7) {
-        console.log("IS CITY")
         var placeFips = cityFips.substring(2);
         var countyFips = fips.substring(2);
         var stateFips = cityFips.substring(0,2);
