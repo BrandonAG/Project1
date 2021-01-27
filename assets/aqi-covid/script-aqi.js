@@ -20,15 +20,6 @@ var getCurrentAirInfo = function() {
             alert("Error: " + response.statusText);
         }
     });
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
-
-    fetch("http://api.airvisual.com/v2/nearest_city?lat=35.98&lon=140.33&key=40f410cd-9102-4b7b-9aed-cdbbce23a985", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
 
 };
 
@@ -43,14 +34,27 @@ function searchButtonHandler(input) {
         if (response.ok) {
             response.json().then(function(geoData) {
                 console.log(geoData)
-                    // Plug the response data into the next function - getWeather()
+                    //results[0].geometry.lat, results[0].geometry.lng
+                var requestOptions = {
+                    method: 'GET',
+                    redirect: 'follow'
+                };
+                var url = "http://api.airvisual.com/v2/nearest_city?lat=" +
+                    geoData.results[0].geometry.lat + "35.98&lon=" + geoData.results[0].geometry.lng + "&key=40f410cd-9102-4b7b-9aed-cdbbce23a985";
+
+                fetch(url, requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+                // Plug the response data into the next function - getWeather()
             });
         } else {
             alert("Error: " + response.statusText);
             // Check for problems
         }
     });
-    //results[0].geometry.lat, results[0].geometry.lng
+
+
 };
 // Finds and saves the data needed from the API
 var displayAQIInformation = function(results) {
