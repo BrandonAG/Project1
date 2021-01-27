@@ -2,46 +2,99 @@
 document.cookie = 'cookie1=value1; SameSite=Lax';
 document.cookie = 'cookie2=value2; SameSite=None; Secure';
 // https://api.airvisual.com/v2/nearest_city?key=40f410cd-9102-4b7b-9aed-cdbbce23a985
-// 3812ea6836536b0581712ffd66f54fa5
-
-
+// 40f410cd-9102-4b7b-9aed-cdbbce23a985
+var cityArray = [];
+// Fetch the API data for current Air Quality
 var getCurrentAirInfo = function() {
     var apiUrl = "https://api.airvisual.com/v2/nearest_city?key=40f410cd-9102-4b7b-9aed-cdbbce23a985";
     fetch(apiUrl).then(function(response) {
 
         if (response.ok) {
-            response.json().then(function(data) {
-                console.log(data);
-                getAQIInformation(data);
+            response.json().then(function(dataResult) {
+                console.log(dataResult);
+                console.log(dataResult.data.location.coordinates);
+                displayAQIInformation(dataResult);
+
             });
         } else {
             alert("Error: " + response.statusText);
-
         }
     });
+
 };
 
 
-var getAQIInformation = function(results) {
-    getPollutant(results);
-    var headerEl = document.getElementById("heads");
-    headerEl.innerHTML = "<div><h1>Ahoy, " + results.data.city + "!</h1></div>";
+function searchButtonHandler(input) {
+    console.log(input);
+    var apiUrl = "https://api.opencagedata.com/geocode/v1/json?q=" +
+        input + "&key=974cf3d56a9f45d58e79a7ec8b1f7842";
+    // Geocode API - Open cage Data
+    fetch(apiUrl).then(function(response) {
+
+        if (response.ok) {
+            response.json().then(function(geoData) {
+                console.log(geoData)
+                    //results[0].geometry.lat, results[0].geometry.lng
+                var url = "http://api.airvisual.com/v2/nearest_city?lat=" +
+                    geoData.results[0].geometry.lat + "&lon=" + geoData.results[0].geometry.lng + "&key=40f410cd-9102-4b7b-9aed-cdbbce23a985";
+                searchResult(url);
+            });
+        } else {
+            alert("Error: " + response.statusText);
+            // Check for problems
+        }
+    });
+
+
+};
+// This app is purely to show we can access the info via IP geolocation and by searching a location name
+var searchResult = function(url) {
+        fetch(url).then(function(response) {
+
+            if (response.ok) {
+                response.json().then(function(thisData) {
+                    console.log(thisData)
+                    var testingEl = document.getElementById("why");
+                    var aqiBadgeElement = createBadge(thisData.data.current.pollution.aqius);
+                    testingEl.innerHTML = "The AQI For Searched Region: " + aqiBadgeElement;
+                });
+            } else {
+                alert("Error: " + response.statusText);
+                // Check for problems
+            }
+        });
+
+    }
+    // Finds and saves the data needed from the API
+var displayAQIInformation = function(results) {
+
+    /* NOTE: This data is displayed this way (innerHTML) for testing purposes only - this way I can see my output.
+    the plan is to build information objects that can be saved and accessed as needed. */
+    var cityFormatted = results.data.city + ", " + results.data.state + ", " + results.data.country;
+    var headerEl = document.getElementById("current-conditions-header");
+    headerEl.innerHTML = "<div><h1>Ahoy, " + cityFormatted + "!</h1></div>";
 
     var contentEl = document.getElementById("content");
     var iconIdEl = results.data.current.weather.ic;
-    var link = "https://openweathermap.org/img/wn/" + iconIdEl + "@2x.png";;
+    var link = "https://openweathermap.org/img/wn/" + iconIdEl + "@2x.png";
     var imgCode = "<img src='" + link + "' alt='icon'>";
 
     var aqiBadgeElement = createBadge(results.data.current.pollution.aqius);
-    /* Displayed this way for testing purposes only so I can see my output */
-    contentEl.innerHTML = "<div>" + imgCode + "</div><br>Temp: " +
+    var pollutantName = getPollutant(results);
+
+
+    contentEl.innerHTML = "<div>" + imgCode + "</div><br><h3>Temp: " +
         convertToF(results.data.current.weather.tp) + "F" +
         "<br><br><div class ='center-align'><div>Current AQI (US):</div><div> " + aqiBadgeElement + "</div></div>" +
-        "<br><br><h6>This is the AirVisual App at work.</h6></div>";
-
+        "<br><div class='pollutants'>Primary Pollutant: " + pollutantName +
+        "</div><br></h3><h6>This is the AirVisual App at work.</h6></div>";
+    searchButtonHandler(cityFormatted);
 };
+
+
+// Creates a badge using materialize that indicates the AQI with color coding
 var createBadge = function(aqiValue) {
-    var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light ";
+    var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light";
 
     if (aqiValue <= 50) {
         badgeCode += "green";
@@ -60,33 +113,34 @@ var createBadge = function(aqiValue) {
     return badgeCode;
 };
 
+// The API uses Celsius - so we want to convert this to Fahrenheit
+
 function convertToF(celsius) {
     return celsius * 9 / 5 + 32;
 };
+
+
 var getPollutant = function(result) {
-    // Main pollutant for US AQI
-    var mainUS = result.data.current.pollution.mainus;
-    // Turn pollutant conde into a human readable string
-    var pollutantString = getPollutantString(mainUS);
-    var unitType = getUnits(mainUS);
-    // Pollutant concentration
-    var concentrationValue = result.data.current.pollution.conc;
-    var thisPollutant = {
-        name: pollutantString,
-        data: mainUS,
-        units: unitType,
-        concentration: concentrationValue
+    // Turn pollutant code into a human readable string
+    var pollutantCode = result.data.current.pollution.mainus;
+    var pollutantName = "";
+    if (pollutantCode === "p2") {
+        pollutantName = "PM2.5";
+    } else if (pollutantCode === "p1") {
+        pollutantName = "PM10";
+    } else if (pollutantCode === "o3") {
+        pollutantName = "Ozone O3";
+    } else if (pollutantCode === "n2") {
+        pollutantName = "Nitrogen dioxide NO2";
+    } else if (pollutantCode === "s2") {
+        pollutantName = "Sulfur dioxide SO2";
+    } else if (pollutantCode === "co") {
+        pollutantName = "Carbon monoxide CO";
+    } else {
+        pollutantName = "ERROR - invalid pollutant code";
     }
 
-    console.log(thisPollutant);
+    return pollutantName;
 };
 
-var getUnits = function(pollutantCode) {
-    return pollutantCode;
-}
-
-
-var getPollutantString = function(pollutantCode) {
-    return pollutantCode;
-}
 getCurrentAirInfo();
