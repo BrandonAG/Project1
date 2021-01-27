@@ -70,7 +70,6 @@ var searchResult = function(url) {
                 // Check for problems
             }
         });
-
     }
     // Finds and saves the data needed from the API
 var displayAQIInformation = function(results) {
