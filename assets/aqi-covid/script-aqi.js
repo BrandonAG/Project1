@@ -35,18 +35,9 @@ function searchButtonHandler(input) {
             response.json().then(function(geoData) {
                 console.log(geoData)
                     //results[0].geometry.lat, results[0].geometry.lng
-                var requestOptions = {
-                    method: 'GET',
-                    redirect: 'follow'
-                };
                 var url = "http://api.airvisual.com/v2/nearest_city?lat=" +
-                    geoData.results[0].geometry.lat + "35.98&lon=" + geoData.results[0].geometry.lng + "&key=40f410cd-9102-4b7b-9aed-cdbbce23a985";
-
-                fetch(url, requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
-                // Plug the response data into the next function - getWeather()
+                    geoData.results[0].geometry.lat + "&lon=" + geoData.results[0].geometry.lng + "&key=40f410cd-9102-4b7b-9aed-cdbbce23a985";
+                searchResult(url);
             });
         } else {
             alert("Error: " + response.statusText);
@@ -56,7 +47,25 @@ function searchButtonHandler(input) {
 
 
 };
-// Finds and saves the data needed from the API
+// This app is purely to show we can access the info via IP geolocation and by searching a location name
+var searchResult = function(url) {
+        fetch(url).then(function(response) {
+
+            if (response.ok) {
+                response.json().then(function(thisData) {
+                    console.log(thisData)
+                    var testingEl = document.getElementById("why");
+                    var aqiBadgeElement = createBadge(thisData.data.current.pollution.aqius);
+                    testingEl.innerHTML = "The AQI For Searched Region: " + aqiBadgeElement;
+                });
+            } else {
+                alert("Error: " + response.statusText);
+                // Check for problems
+            }
+        });
+
+    }
+    // Finds and saves the data needed from the API
 var displayAQIInformation = function(results) {
 
     /* NOTE: This data is displayed this way (innerHTML) for testing purposes only - this way I can see my output.
@@ -85,7 +94,7 @@ var displayAQIInformation = function(results) {
 
 // Creates a badge using materialize that indicates the AQI with color coding
 var createBadge = function(aqiValue) {
-    var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light ";
+    var badgeCode = "<h3><a class='btn-floating btn-large waves-effect waves-light";
 
     if (aqiValue <= 50) {
         badgeCode += "green";
