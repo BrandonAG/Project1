@@ -17,7 +17,7 @@ function getCityFips(locationFullName) {
 
             return usFips;
         });
-}
+};
 
 function GetLocationInfo(location) {
     fetch('https://api.opencagedata.com/geocode/v1/json?q=' + location + '&key=c740ebf9cdd34742986f08e8fd78033c&language=en&pretty=1&countrycode=us')
@@ -27,7 +27,7 @@ function GetLocationInfo(location) {
             // Location Lattitude and Longitude
             var lat = data.results[0].geometry.lat;
             var lng = data.results[0].geometry.lng;
-            searchAQIResult(lat, lng);
+
             // Location Name Information
             var cityName;
             var countyName;
@@ -78,6 +78,7 @@ function GetLocationInfo(location) {
             // NOTE: Place All Functions That do Not Need City Level FIPS Below
             //
             // someFunction(someInput,anotherInput)
+            searchAQIResult(lat, lng);
             getCovidData(fips);
             locationDemographics(fips, fips);
 
@@ -101,7 +102,7 @@ function saveHistory(location) {
     }
     localStorage.setItem("saved-locations", JSON.stringify(savedLocations));
     loadHistory();
-}
+};
 
 function loadHistory() {
     savedLocations = JSON.parse(localStorage.getItem("saved-locations"));
@@ -120,9 +121,9 @@ function loadHistory() {
             GetLocationInfo(savedLocations[0])
         }
     }
-}
+};
 
-loadHistory()
+
 
 historyEl.addEventListener("click", function(e) {
     var location = document.querySelector('[location-num="' + e.target.getAttribute("location-num") + '"]').innerHTML;
@@ -135,4 +136,5 @@ document.getElementById('form-submit').addEventListener('click', function(event)
     if (searchEntry.value) {
         GetLocationInfo(searchEntry.value);
     }
-})
+});
+loadHistory();
