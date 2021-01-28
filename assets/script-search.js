@@ -107,7 +107,6 @@ function saveHistory(location) {
 function loadHistory() {
     savedLocations = JSON.parse(localStorage.getItem("saved-locations"));
     if(savedLocations) {
-        console.log(historyEl.childElementCount);
         while (historyEl.childElementCount > 1) {
             historyEl.removeChild(historyEl.lastElementChild);
         }
@@ -123,6 +122,8 @@ function loadHistory() {
         }
     }
 }
+
+loadHistory()
 
 historyEl.addEventListener("click", function(e){
     var location = document.querySelector('[location-num="' + e.target.getAttribute("location-num") + '"]').innerHTML;
