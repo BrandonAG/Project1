@@ -59,6 +59,10 @@ var createAPIObject = function(results) {
         temperature: temp,
         img: imgCode // weather icon
     };
+    var myMoment = moment().format('L');
+    var timeSpot = document.getElementById("time-spot");
+    timeSpot.innerHTML = "(" +
+        myMoment + ")";
     console.log(myObj);
     aqiArray.push(myObj);
     console.log(aqiArray);
