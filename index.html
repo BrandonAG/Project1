@@ -5,58 +5,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Safe Passage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
 
-<body>
+<body class="has-background-primary-dark">
 
-    <header>
-        <div>
-            <h1>Safe Passage</h1>
-            <p>For the cautious modern traveler</p>
+    <header class="box columns has-background-primary-dark has-text-white m-0 level">
+        <div class="column is-one-third">
+            <figure>
+                <img alt="city scape with street level view of vehicles" src="./assets/untitled.png">
+            </figure>
         </div>
-        <div>
-            <h2>Custom Search Results:</h2>
-            <p>Searched Location</p>
+        <div class="column is-two-third has-background-dark">
+            <div> 
+                <h1 class="title is-1 has-text-white-ter mb-0">Safe Passage</h1>
+                <span class="subtitle is-5 has-text-warning">For the cautious modern traveler</span>
+            </div> 
+            <br>  
+            <div class="box">
+                <h2>Custom Search Results:</h2>
+            </div>
         </div>
     </header>
-    <section>
-        <div>
-            <h2>Current Location</h2>
-            <p>Date, Time</p>
+    <section class="box columns has-background-primary-dark m-0">
+        <div class=" column is-one-third has-background-dark has-text-white">
+            <div class="box">
+                <div class="has-background-white-bis has-text-black">
+                    <h2 class="title is-4">Current Location</h2>
+                    <p>Date, Time</p>
+                </div>
+                <br>
+                <ul>
+                    <li>Current Weather</li>
+                    <li>Air Quality Information</li>
+                    <li>Demographics</li>
+                    <li>Coronavirus Information</li>
+                </ul>
+            </div>  
         </div>
-        <ul>
-            <li>Current Weather</li>
-            <li>Demographics</li>
-            <li>Coronavirus Information</li>
-        </ul>
+        <div class="column has-background-dark has-text-black">
+            <div class="columns has-text-black">
+                <!--div for sat map of searched location-->
+                <div class="column is-one-quarter"></div>
+                <div class="column is-three-quarters">
+                    <div class="box">    
+                        <h3 class="title is-4">Personal Rating</h3>
+                        <p>Current Weather</p>
+                    </div>
+                    <div class="box">
+                        <h3 class="title is-4">Coronavirus Detailed</h3>
+                        <p>Population Density: <span id="pop-density"></span></p>
+                        <p>Median Age: <span id="median-age"></span></p>
+                        <p>Poverty Rate: <span id="poverty-rate"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-half">
+                    <h3 class="title is-4 has-text-white">Air Quality Detailed</h3>
+                </div>
+                <div class="column is-half">
+                    <h3 class="title is-4 has-text-white">Risk Analysis</h3>
+                </div>
+            </div>
+            <div class="box">
+                <h3 class="title is-4">Saved Assessment History</h3>
+            </div>
+        </div>
     </section>
-    <section>
-        <div>
-            <h3>Personal Rating</h3>
-            <div>Current Weather</div>
-        </div>
-        <div>
-            <h3>Demographics Detailed</h3>
-            <p>Population Density: <span id="pop-density"></span></p>
-            <p>Median Age: <span id="median-age"></span></p>
-            <p>Poverty Rate: <span id="poverty-rate"></span></p>
-        </div>
-        <div>
-            <h3>Coronavirus Detailed</h3>
-        </div>
-        <div>
-            <h3>Air Quality Detailed</h3>
-        </div>
-        <div>
-            <h3>Risk Analysis</h3>
-        </div>
-        <div>
-            <h3>Saved Assessment History</h3>
-        </div>
-    </section>
-    <section>
-        <form>
-            <label>Explore Location:</label>
+    <section class="box has-background-dark has-text-white px-5 m-0">
+        <form class="box"> 
+            <label class="title is-4">Explore Location:</label>
             <input id="form-entry" placehold="Enter Location.">
             <button id="form-submit">Search</button>
         </form>
@@ -66,7 +85,6 @@
 
     <script src="assets/demographics/script-demographics.js"></script>
     <script src="assets/script-search.js"></script>
-
 </body>
 
 </html>
