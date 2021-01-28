@@ -10,7 +10,7 @@ var getCurrentAirInfo = function() {
         if (response.ok) {
             response.json().then(function(dataResult) {
                 console.log(dataResult);
-                createAPIObject(dataResult);
+                createAPIObject(dataResult, true);
 
             });
         } else {
@@ -32,7 +32,8 @@ var searchAQIResult = function(lat, lng) {
         if (response.ok) {
             response.json().then(function(thisData) {
                 console.log(thisData);
-                createAPIObject(thisData);
+
+                createAPIObject(thisData, false);
                 console.log(aqiArray);
 
             });
@@ -43,7 +44,7 @@ var searchAQIResult = function(lat, lng) {
     });
 }
 
-var createAPIObject = function(results) {
+var createAPIObject = function(results, isCurrent) {
     // This will work with HTML and CSS to display the variables
     var cityFormatted = results.data.city + ", " + results.data.state + ", " + results.data.country;
     var iconIdEl = results.data.current.weather.ic;
@@ -59,6 +60,11 @@ var createAPIObject = function(results) {
         temperature: temp,
         img: imgCode // weather icon
     };
+    if (isCurrent) {
+        displayCurrent(myObj);
+    } else {
+        displaySearched(myobj);
+    }
     console.log(myObj);
     aqiArray.push(myObj);
     console.log(aqiArray);

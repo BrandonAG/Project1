@@ -10,14 +10,14 @@ function getCityFips(locationFullName) {
 
     // Convert Address to City or County FIPS ID
     return fetch('https://datausa.io/api/searchLegacy/?q=' + plainFullName)
-    .then(response => response.json())
-    .then(function(data) {
-        var fips = data.results[0].id;
-        usFips = fips.split("US")[1];
+        .then(response => response.json())
+        .then(function(data) {
+            var fips = data.results[0].id;
+            usFips = fips.split("US")[1];
 
-        return usFips;
-    });
-}
+            return usFips;
+        });
+};
 
 function GetLocationInfo(location) {
     fetch('https://api.opencagedata.com/geocode/v1/json?q=' + location + '&key=c740ebf9cdd34742986f08e8fd78033c&language=en&pretty=1&countrycode=us')
@@ -79,6 +79,8 @@ function GetLocationInfo(location) {
         // NOTE: Place All Functions That do Not Need City Level FIPS Below
         //
         // someFunction(someInput,anotherInput)
+        searchAQIResult(lat, lng);
+        getCovidData(fips);
         locationDemographics(fips, fips);
 
     });
@@ -136,4 +138,5 @@ document.getElementById('form-submit').addEventListener('click', function(event)
     if (searchEntry.value) {
         GetLocationInfo(searchEntry.value);
     }
-})
+});
+loadHistory();
