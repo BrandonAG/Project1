@@ -51,11 +51,13 @@ var createAPIObject = function(results) {
     var imgCode = "<img src='" + link + "' alt='icon'>";
     var aqi = results.data.current.pollution.aqius;
     var pollutantName = getPollutant(results);
+    var temp = convertToF(results.data.current.weather.tp);
     var myObj = {
         name: cityFormatted,
         aqi: aqi,
         pollutant: pollutantName,
-        img: imgCode
+        temperature: temp,
+        img: imgCode // weather icon
     };
     console.log(myObj);
     aqiArray.push(myObj);
