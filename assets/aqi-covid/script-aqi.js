@@ -1,7 +1,7 @@
 // https://api.airvisual.com/v2/nearest_city?key=40f410cd-9102-4b7b-9aed-cdbbce23a985
 // 40f410cd-9102-4b7b-9aed-cdbbce23a985
 
-var cityArray = [];
+var aqiArray = [];
 
 
 var getCurrentAirInfo = function() {
@@ -33,7 +33,7 @@ var searchAQIResult = function(lat, lng) {
             response.json().then(function(thisData) {
                 console.log(thisData);
                 createAPIObject(thisData);
-                console.log(cityArray);
+                console.log(aqiArray);
 
             });
         } else {
@@ -58,8 +58,8 @@ var createAPIObject = function(results) {
         img: imgCode
     };
     console.log(myObj);
-    cityArray.push(myObj);
-    console.log(cityArray);
+    aqiArray.push(myObj);
+    console.log(aqiArray);
 
 };
 
