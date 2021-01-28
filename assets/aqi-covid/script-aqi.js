@@ -92,5 +92,6 @@ var getPollutant = function(result) {
 
     return pollutantName;
 };
-searchAQIResult(1, 2);
-getCurrentAirInfo();
+/* Test Code:
+ searchAQIResult(1, 2);
+getCurrentAirInfo();*/
