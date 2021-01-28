@@ -107,8 +107,9 @@ function saveHistory(location) {
 function loadHistory() {
     savedLocations = JSON.parse(localStorage.getItem("saved-locations"));
     if(savedLocations) {
-        while (historyEl.childElementCount.length > 1) {
-            historyEl.removeChild(historyEl.lastChild);
+        console.log(historyEl.childElementCount);
+        while (historyEl.childElementCount > 1) {
+            historyEl.removeChild(historyEl.lastElementChild);
         }
         for (var i = 0; i < savedLocations.length; i++) {
             var locationEl = document.createElement("button");
@@ -122,6 +123,11 @@ function loadHistory() {
         }
     }
 }
+
+historyEl.addEventListener("click", function(e){
+    var location = document.querySelector('[location-num="' + e.target.getAttribute("location-num") + '"]').innerHTML;
+    GetLocationInfo(location);
+});
 
 // On Form Submission
 document.getElementById('form-submit').addEventListener('click', function(event) {
