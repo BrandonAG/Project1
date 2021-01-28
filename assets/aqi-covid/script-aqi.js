@@ -10,7 +10,6 @@ var getCurrentAirInfo = function() {
         if (response.ok) {
             response.json().then(function(dataResult) {
                 console.log(dataResult);
-                console.log(dataResult.data.location.coordinates);
                 createAPIObject(dataResult);
 
             });
@@ -21,6 +20,7 @@ var getCurrentAirInfo = function() {
 };
 
 
+// searchAQIResult is the function to call from script-search taking in latitude and longitude parameters
 
 var searchAQIResult = function(lat, lng) {
 
@@ -33,6 +33,7 @@ var searchAQIResult = function(lat, lng) {
             response.json().then(function(thisData) {
                 console.log(thisData);
                 createAPIObject(thisData);
+                console.log(cityArray);
 
             });
         } else {
@@ -56,7 +57,10 @@ var createAPIObject = function(results) {
         pollutant: pollutantName,
         img: imgCode
     };
+    console.log(myObj);
     cityArray.push(myObj);
+    console.log(cityArray);
+
 };
 
 
@@ -88,3 +92,5 @@ var getPollutant = function(result) {
 
     return pollutantName;
 };
+searchAQIResult(1, 2);
+getCurrentAirInfo();
