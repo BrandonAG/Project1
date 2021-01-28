@@ -27,7 +27,7 @@ document.getElementById('form-submit').addEventListener('click', function(event)
                 // Location Lattitude and Longitude
                 var lat = data.results[0].geometry.lat;
                 var lng = data.results[0].geometry.lng;
-
+                searchAQIResult(lat, lng);
                 // Location Name Information
                 var cityName;
                 var countyName;
@@ -75,7 +75,7 @@ document.getElementById('form-submit').addEventListener('click', function(event)
                 // NOTE: Place All Functions That do Not Need City Level FIPS Below
                 //
                 // someFunction(someInput,anotherInput)
-
+                getCovidData(fips);
                 locationDemographics(fips, fips);
 
             });
