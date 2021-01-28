@@ -42,5 +42,5 @@ var getCovidDataObject = function(results) {
     console.log(covidDataObject);
 }
 
-
-getCovidData(49017);
+/* Test Code:
+getCovidData(49017);*/
