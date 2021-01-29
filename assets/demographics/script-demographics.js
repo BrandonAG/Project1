@@ -3,6 +3,25 @@ const popDensityEl = document.getElementById('pop-density');
 const medAgeEl = document.getElementById('median-age');
 const povRateEl = document.getElementById('poverty-rate');
 
+const lowRiskDensity = 3000;
+const highRiskDensity = 10000;
+const lowRiskAge = 30;
+const highRiskAge = 40;
+const lowRiskPov = 10;
+const highRiskPov = 20;
+
+function demographicRisk(val,lowRisk,highRisk) {
+    if (val < lowRisk) {
+        return "green";
+    }
+    else if(val > highRisk) {
+        return "red";
+    }
+    else {
+        return "yellow";
+    }
+}
+
 function locationDemographics(cityFips, fips) {
     // City Level FIPS
     if (cityFips.length == 7) {
@@ -13,6 +32,8 @@ function locationDemographics(cityFips, fips) {
         .then(response => response.json())
         .then(function(data) {
             popDensity = data[data.length - 1][3];
+            var risk = demographicRisk(popDensity,lowRiskDensity,highRiskDensity);
+            popDensityEl.setAttribute("style", "background-color: " + risk + ";");
             popDensityEl.innerHTML = Math.round(popDensity) + " per sq. mi.";
         });
         
@@ -20,6 +41,8 @@ function locationDemographics(cityFips, fips) {
         .then(response => response.json())
         .then(function(data) {
             medAge = data[data.length - 1][1];
+            var risk = demographicRisk(medAge,lowRiskAge,highRiskAge);
+            medAgeEl.setAttribute("style", "background-color: " + risk + ";");
             medAgeEl.innerHTML = Math.round(medAge);
         });
 
@@ -27,6 +50,8 @@ function locationDemographics(cityFips, fips) {
         .then(response => response.json())
         .then(function(data) {
             povRate = data[data.length - 1][2];
+            var risk = demographicRisk(povRate,lowRiskPov,highRiskPov);
+            povRateEl.setAttribute("style", "background-color: " + risk + ";");
             povRateEl.innerHTML = Math.round(povRate) + "%";
         });
     }
@@ -39,6 +64,8 @@ function locationDemographics(cityFips, fips) {
             .then(response => response.json())
             .then(function(data) {
                 popDensity = data[data.length - 1][3];
+                var risk = demographicRisk(popDensity,lowRiskDensity,highRiskDensity);
+                popDensityEl.setAttribute("style", "background-color: " + risk + ";");
                 popDensityEl.innerHTML = Math.round(popDensity) + " per sq. mi.";
             });
 
@@ -46,6 +73,8 @@ function locationDemographics(cityFips, fips) {
             .then(response => response.json())
             .then(function(data) {
                 medAge = data[data.length - 1][1];
+                var risk = demographicRisk(medAge,lowRiskAge,highRiskAge);
+                medAgeEl.setAttribute("style", "background-color: " + risk + ";");
                 medAgeEl.innerHTML = Math.round(medAge);
             });
 
@@ -53,6 +82,8 @@ function locationDemographics(cityFips, fips) {
             .then(response => response.json())
             .then(function(data) {
                 povRate = data[data.length - 1][2];
+                var risk = demographicRisk(povRate,lowRiskPov,highRiskPov);
+                povRateEl.setAttribute("style", "background-color: " + risk + ";");
                 povRateEl.innerHTML = Math.round(povRate) + "%";
             });
         }
@@ -62,6 +93,8 @@ function locationDemographics(cityFips, fips) {
             .then(response => response.json())
             .then(function(data) {
                 popDensity = data[data.length - 1][3];
+                var risk = demographicRisk(popDensity,lowRiskDensity,highRiskDensity);
+                popDensityEl.setAttribute("style", "background-color: " + risk + ";");
                 popDensityEl.innerHTML = Math.round(popDensity) + " per sq. mi.";
             });
 
@@ -69,6 +102,8 @@ function locationDemographics(cityFips, fips) {
             .then(response => response.json())
             .then(function(data) {
                 medAge = data[data.length - 1][1];
+                var risk = demographicRisk(medAge,lowRiskAge,highRiskAge);
+                medAgeEl.setAttribute("style", "background-color: " + risk + ";");
                 medAgeEl.innerHTML = Math.round(medAge);
             });
 
@@ -76,6 +111,8 @@ function locationDemographics(cityFips, fips) {
             .then(response => response.json())
             .then(function(data) {
                 povRate = data[data.length - 1][2];
+                var risk = demographicRisk(povRate,lowRiskPov,highRiskPov);
+                povRateEl.setAttribute("style", "background-color: " + risk + ";");
                 povRateEl.innerHTML = Math.round(povRate) + "%";
             });
         }
